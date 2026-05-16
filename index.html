@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub 跳转器</title>
+    <script>
+        // === 在这里修改你的仓库信息 ===
+        const GITHUB_USERNAME = 'GJW2559';
+        const REPO_NAME = 'go-mscode';
+        const FILE_PATH = '.link';
+        const BRANCH = 'main'; // 或 master
+        
+        const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${BRANCH}/${FILE_PATH}`;
+        
+        async function go() {
+            try {
+                const res = await fetch(Raw_URL);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const url = (await res.text()).trim();
+                if (!url) aleft("没有指定设置，跳转默认页");window.location.href = "https://www.baidu.com";
+                // 确保是有效URL
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    aleft("无法加载");
+                }
+                window.location.href = url;
+            } catch (err) {
+                document.body.innerHTML = `<div style="padding:2rem;font-family:monospace;">❌ 跳转失败: ${err.message}<br><br>👉 请检查仓库是否存在 .link 文件，或稍后重试。</div>`;
+            }
+        }
+        
+        // 页面加载后立即尝试跳转
+        window.addEventListener('DOMContentLoaded', go);
+    </script>
+</head>
+<body style="display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:system-ui;">
+    <div style="text-align:center;">Loading MSCODE</div>
+</body>
+</html>
